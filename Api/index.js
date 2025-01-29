@@ -180,20 +180,6 @@ app.get('/estado/:id', (req, res) => {
     select_one('CALL `ProSeguridad_Select_TBLUsuarioEstado_id`(?);', req, res);
 });
 
-
-
-
-
-
-
-
-
-app.delete('/actividad/delete/:id', (req, res) => {
-    const { id }    = req.params;
-    var query       = "CALL ACT_DELETE(?)";
-    Delete(query, [id], req, res);
-});
-
 /****************************************************************************************************************************************************************************************************
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////                                                    /////////////////////////////////////////////////////////////////////////////////
@@ -231,21 +217,16 @@ async function select(query, req, res) {
 ///funcion GET one
 async function select_one(query, req, res) {
     const { id } = req.params;
-    mysqlConnection.query(query, [id],
+    mysqlConnection.query(query, id,
         (err, rows, fields) => {
             if (!err) {
-                val = rows.length - 2;
-                if (false/*rows.length > 0  && rows[0].length > 0*/) {
-                    // Si hay resultados, devolver el primer registro
+                if (rows.length > 0) {
                     res.status(200).json(rows[0][0]);
-                    console.log('get.query( \'' + query + '\' ), id(\'' + id + '\')'+ "    " + [id]);
                 } else {
-                    // Si no hay resultados, devolver un mensaje adecuado
-                    //res.status(404).json(rows[0][0]);
-                    res.status(200).json(rows[val][0]);
+                    res.status(404).json(null);
                 }
             } else {
-                res.status(500).json([null]);
+                res.status(200).json(null);
                 console.log(err);
             }
         }

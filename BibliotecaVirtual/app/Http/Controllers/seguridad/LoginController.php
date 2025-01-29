@@ -37,7 +37,7 @@ class LoginController
             session(config('global.Mensaje_texto.Usuario_bloqueado'));
             return redirect('/login');
         }
-        $Verificar_Contra = $DataEntidad['CONTRASENA'] == $DatoForm['password'];//Hash::check($DatoForm['password'], '$2y$10$hQ1m.3mnBqdKBH845.Y.8ua.3JJeOzDWd0WRiKsbktF'); 
+        $Verificar_Contra = $DataEntidad['CONTRASENA'] == $DatoForm['password'];//Hash::check($DatoForm['password'], '$2y$10$hQ1m.3mnBqdKBH845.Y.8ua.3JJeOzDWd0WRiKsbktF');
 
         /// si la contrase;a no es valida
         if (!$Verificar_Contra){
@@ -53,12 +53,12 @@ class LoginController
             }
         }
 
-        
+
 
         // Si todo es correcto
         ///restablese los intentos
         Http::put(config('global.Api.usuario_intento_Restableser'), ['p0'=>$DataEntidad['ID_USUARIO']]);
-        
+
         //dd($DataEntidad['ESTADO_USUARIO'], json_decode(Http::get(config('global.Api.usuarioEstado_id').'3'),true)['DESCRIPCION'] );
         //obtener datos para la session
         if ($DataEntidad['ESTADO_USUARIO'] == json_decode(Http::get(config('global.Api.usuarioEstado_id').'1'),true)['DESCRIPCION'] ){  //1: Activar
@@ -67,7 +67,7 @@ class LoginController
             Session::put('user_Correo', $DataEntidad['CORREO_ELECTRONICO']);
             Session::put('user_Rol',    $DataEntidad['ROL_USUARIO']);
             Session::put('Session',     1);
-            
+
             return redirect('/');
         }else if ($DataEntidad['ESTADO_USUARIO'] == json_decode(Http::get(config('global.Api.usuarioEstado_id').'3'),true)['DESCRIPCION'] ){ //3: primera vez
             Session::put('user_id',     $DataEntidad['ID_USUARIO']);
@@ -82,7 +82,7 @@ class LoginController
     }
 
     public function Accion_Registrarses(Request $request){
-
+        
         //Data del formulario
         $DatoForm = $request->validate([
             'name' => 'required|string|max:50',
@@ -108,10 +108,10 @@ class LoginController
         $parametro_Intentos = json_decode(Http::get(config('global.Api.parametro_id').'1'), true);
         $parametro_DiasVenc = json_decode(Http::get(config('global.Api.parametro_id').'3'), true);
         //$Codigo_Ingreso = Str::random(20);
-        
-        
+
+
         $token = Str::random(config('global.variables.token_lenght'));
-        
+
         $DataEntidad = Http::post(config('global.Api.usuario_add'), [
             "p0" => 4,                  // estado usuario 3:usuario nuevo
             "p1" => 1,                  // rol
@@ -119,13 +119,13 @@ class LoginController
             "p3" => strtoupper($DatoForm['name']),  // Nombre Usuario
             "p4" => $hashedPassword,    // contrasena
             "p5" => $DatoForm['email'], // correo electrónico
-            "p6" => $DatoForm['DNI'],   // DNI 
+            "p6" => $DatoForm['DNI'],   // DNI
             "p7" => Carbon::today(),    // fecha_conexion_ultima
             "p8" => $token,             // cod primer ingreso
             "p9" => Carbon::today()->addDays($parametro_DiasVenc['VALOR']),          // fecha_vencimiento
-            "p10"=> intval($parametro_Intentos['VALOR'])    
+            "p10"=> intval($parametro_Intentos['VALOR'])
         ]);
-        
+
         $link_token = URL::temporarySignedRoute('verificacion.Link', now()->addMinutes(config('global.variables.token_time_min')), ['token' => $token]);
         Mail::to($DatoForm['email'])->send(new TestMail($link_token, $DatoForm['name'], 0, $DatoForm['email']));
 
@@ -148,11 +148,11 @@ class LoginController
         //dd($this->generarEnlaceUnico());
         return view('login.login');
     }
-    
+
     public function ruta_Verificacion(Request $request){
         if ($request->hasValidSignature()) {
 
-            
+
             $DataBusqueda = json_decode(Http::get(config('global.Api.usuario_Tcd').$request->token), true);
             $new_codigo = Str::random(60);;
             //dd($request->token, $new_codigo);

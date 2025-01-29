@@ -113,13 +113,13 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             {{session('mensaje')}}
           </div>
-          @php
-            session()->forget('mensaje');
-          @endphp
         @endif
-
+        @php
+            session()->forget('mensaje');
+        @endphp
+        
         <!-- Email Input -->
-      
+
         <div class="input-group mb-3">
           <input type="email" name="email" class="form-control" placeholder="Usuario@gmail.com" maxlength="50" required>
           <div class="input-group-append">
