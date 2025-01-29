@@ -1,0 +1,5 @@
+instalar todas las dependecias
+    composer install
+    php artisan cache:clear 
+	composer dump-autoload 
+	php artisan key:generate
