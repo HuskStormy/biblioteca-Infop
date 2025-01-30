@@ -8,11 +8,13 @@ return [
         'usuario_modify'=> 'http://localhost:3000/usuario/modify',
         'usuario_Tcd'=> 'http://localhost:3000/usuario/t/',
         'usuVerific'=> 'http://localhost:3000/usuario/verific',
-        
+
         'usuario_intento_Menos' => 'http://localhost:3000/persona/Intento/menos',
         'usuario_intento_Restableser' => 'http://localhost:3000/persona/Intento/Restableser',
         'usuario_Estado_bloqueado' => 'http://localhost:3000/persona/Estado/Bloqueado',
+        'usuarioEstado' => 'http://localhost:3000/estado',
         'usuarioEstado_id' => 'http://localhost:3000/estado/',
+        'usuarioRol' => 'http://localhost:3000/rol',
         'parametro_id'  => 'http://localhost:3000/parametro/'
         ],
     'variables' =>[
@@ -45,5 +47,5 @@ return [
             'tipo' => 'warning'
         ],
     ]
-    
+
 ];

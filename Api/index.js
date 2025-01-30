@@ -56,11 +56,6 @@ console.log ("Views:");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ****************************************************************************************************************************************************************************************************/
 
-// PAGINAS JSON
-app.get('/', function (req, res) {
-    File_show('public/index.html', req, res);
-});
-
 app.get('/usuario', (req, res) => {
     select('call ProSeguridad_Select_TBLusuario();', req, res);
 });
@@ -176,9 +171,18 @@ app.get('/parametro/:id', (req, res) => {
     select_one('CALL `ProSeguridad_Select_TBLparametro_id`(?);', req, res);
 });
 
+app.get('/estado', (req, res) => {
+    select("CALL `ProSeguridad_Select_TBLUsuarioEstado`();", req, res);
+});
+
 app.get('/estado/:id', (req, res) => {
     select_one('CALL `ProSeguridad_Select_TBLUsuarioEstado_id`(?);', req, res);
 });
+
+app.get('/rol', (req, res) => {
+    _select("SELECT * FROM tbl_ms_rol", req, res);
+});
+
 
 /****************************************************************************************************************************************************************************************************
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,36 +206,36 @@ async function File_show(fileName, req, res) {
   });
 }
 
-///funcion GET
 async function select(query, req, res) {
-    mysqlConnection.query(query,
-        (err, rows, fields) => {
-            if (!err){
-                    res.status(200).json(rows[0]);
-                    
-                    console.log('get.query( \''+ query +'\' )');
-            }   else console.log(err);
+    mysqlConnection.query(query, (err, rows, fields) => {
+        if (!err) {
+            
+            res.status(200).json(rows[0]);
+            console.log('get.query( \'' + query + '\' )');
+        } else {
+            res.status(200).json(null);
+            console.log(err);
         }
-    );
+    });
 }
-///funcion GET one
+
 async function select_one(query, req, res) {
     const { id } = req.params;
-    mysqlConnection.query(query, id,
-        (err, rows, fields) => {
-            if (!err) {
-                if (rows.length > 0) {
-                    res.status(200).json(rows[0][0]);
-                } else {
-                    res.status(404).json(null);
-                }
+    mysqlConnection.query(query, id, (err, rows, fields) => {
+        if (!err) {
+            if (rows.length > 0) {
+                // Si hay resultados, solo devolvemos el primer registro sin otros datos adicionales.
+                res.status(200).json(rows[0]);
             } else {
-                res.status(200).json(null);
-                console.log(err);
+                res.status(404).json(null);
             }
+        } else {
+            res.status(200).json(null);
+            console.log(err);
         }
-    );
+    });
 }
+
 //funcion POST
 async function Insert(query, paramet, CallVal, req, res) {
     mysqlConnection.query(paramet + query, CallVal,
@@ -274,4 +278,18 @@ async function Delete(query, CallVal, req, res) {
             }
         }
     );
+}
+
+
+async function _select(query, req, res) {
+    mysqlConnection.query(query, (err, rows, fields) => {
+        if (!err) {
+            
+            res.status(200).json(rows);
+            console.log('get.query( \'' + query + '\' )');
+        } else {
+            res.status(200).json(null);
+            console.log(err);
+        }
+    });
 }

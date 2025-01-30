@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Http\Middleware;
 use App\Http\Controllers\seguridad\LoginController;
+use App\Http\Controllers\seguridad\ModuloSeguridad;
 
 ///     Systema     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +37,9 @@ Route::get('/backup',function () {   return view('login.backup'); }); ///Ruta de
 ///     MODULOS     ///////////////////////////////////////////////////////////////////////////////////////////////
 ///Seguridad
 //Usuarios
-Route::get('/table_usuarios',function () {              return view('Modulos.Seguridad.Usuarios.tabla_usuarios'); });//->middleware('middleware_dash');
+Route::get('/table_usuarios',                           [ModuloSeguridad::class, 'ruta_TablaUsuario']);//->middleware('middleware_dash');
+Route::post('/usuario/actualizar',                [ModuloSeguridad::class, 'ruta_TablaUsuario']);//->middleware('middleware_dash');
+
 Route::get('/table_usuariosPendietes',function () {     return view('Modulos.Seguridad.Usuarios.tabla_usuariosPendientes'); });//->middleware('middleware_dash');
 Route::get('/form_agregarUsuario',function () {         return view('Modulos.Seguridad.Usuarios.form_agregarUsuarios'); });//->middleware('middleware_dash');
 //Seguridad

@@ -53,7 +53,7 @@
         <!-- pantalla de carga -->
         <!-- pantalla de carga -->
         <!-- pantalla de carga -->
-        
+
             <div class="preloader flex-column justify-content-center align-items-center">
                 <img class="animation__shake" src="{{asset('asset/imagenes/Infop_logo2.png')}}" alt="AdminLTELogo" height="260" width="260">
             </div>
@@ -68,8 +68,8 @@
         <nav class="main-header navbar navbar-expand BarraHorizontal_color">
             <!-- NAVBAR derecho -->
 
-            
-            
+
+
             <ul class="navbar-nav">
 
                 <!-- BOTON abrir la barra de navegacion vertical izquierda -->
@@ -272,6 +272,11 @@
     <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <!-- Cargar jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <style>
             .hidden {
                 display: none;
