@@ -54,9 +54,42 @@
         <!-- pantalla de carga -->
         <!-- pantalla de carga -->
 
-            <div class="preloader flex-column justify-content-center align-items-center">
-                <img class="animation__shake" src="{{asset('asset/imagenes/Infop_logo2.png')}}" alt="AdminLTELogo" height="260" width="260">
-            </div>
+<!-- Loader -->
+    <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <style>
+        /* Fondo de la pantalla de carga */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(31, 28, 28, 0.9); /* Fondo semi-transparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Spinner animado */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #3498db;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
         <!-- /.pantalla de carga -->
         <!-- /.pantalla de carga -->
         <!-- /.pantalla de carga -->
@@ -284,6 +317,18 @@
         </style>
 
         <script>
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+            }, 500); // Ajusta el tiempo si la carga es rápida
+        });
+
+
+
+
+
             function toggleBrandLink() {
                 const brandLink = document.getElementById('brandLink');
                 brandLink.classList.toggle('hidden'); // Alterna la clase 'hidden'

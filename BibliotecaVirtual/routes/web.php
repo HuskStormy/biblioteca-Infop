@@ -41,6 +41,7 @@ Route::get('/backup',function () {   return view('login.backup'); }); ///Ruta de
 //Usuarios
 Route::get('/table_usuarios',                           [ModuloSeguridad::class, 'ruta_TablaUsuario']);//->middleware('middleware_dash');
 Route::put('/table_usuarios/actualizar',                       [ModuloSeguridad::class, 'accion_editarUsuario']);
+Route::delete('/table_usuarios/eliminar',                       [ModuloSeguridad::class, 'accion_EliminarUsuario']);
 
 Route::get('/table_usuariosPendietes',function () {     return view('Modulos.Seguridad.Usuarios.tabla_usuariosPendientes'); });//->middleware('middleware_dash');
 Route::get('/form_agregarUsuario',function () {         return view('Modulos.Seguridad.Usuarios.form_agregarUsuarios'); });//->middleware('middleware_dash');

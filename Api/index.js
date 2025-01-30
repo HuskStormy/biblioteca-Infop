@@ -131,6 +131,11 @@ app.put('/usuario/verific', (req, res) => {
     Put(query,[ P_ID, P_CODIGO], req, res);
 });
 
+app.delete('/usuario/delete/:id', (req, res) => {
+    const { id }    = req.params;
+    var query       = "DELETE FROM `tbl_ms_usuario` WHERE `tbl_ms_usuario`.`ID_USUARIO` = ?";
+    Delete(query, [id], req, res);
+});
 
 app.put('/persona/Intento/menos', (req, res) => {
     const {

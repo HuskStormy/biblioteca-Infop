@@ -6,6 +6,7 @@ return [
         'usuario_correo'=> 'http://localhost:3000/usuario/correo/',
         'usuario_add'   => 'http://localhost:3000/usuario/add',
         'usuario_modify'=> 'http://localhost:3000/usuario/modify',
+        'usuario_eliminar'=> 'http://localhost:3000/usuario/delete/',
         'usuario_Tcd'=> 'http://localhost:3000/usuario/t/',
         'usuVerific'=> 'http://localhost:3000/usuario/verific',
 

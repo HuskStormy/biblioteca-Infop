@@ -258,69 +258,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Agregar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
                 </div>
             </div>
         </div>
 </div>
-@foreach($Usuarios as $u)
-    <!-- Modal de Edición -->
-    <div class="modal fade" id="llllllll" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editForm">
-                        <input type="hidden" id="usuario_id">
-                        <div class="mb-3">
-                            <label for="nombre_usuario" class="form-label">Nombre Usuario</label>
-                            <input type="text" class="form-control" id="nombre_usuario" value="{{ $u['NOMBRE_USUARIO'] }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="dni" class="form-label">DNI</label>
-                            <input type="text" class="form-control" value={{ $u['DNI'] }}>
-                        </div>
-                        <div class="mb-3">
-                            <label for="estado_usuario" class="form-label">Estado</label>
 
-                            <!-- Select para Estado -->
-                            <select class="form-control" id="estado_usuario" name="estado">
-                                @foreach($Estado as $e)
-                                    <option value="{{ $e['ID_ESTADO_USUARIO'] }}">
-                                        {{ $e['DESCRIPCION'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                        </div>
-                        <div class="mb-3">
-                            <label for="rol_usuario" class="form-label">Rol</label>
-                            <select class="form-control" id="rol_usuario">
-                                @foreach($Rol as $r)
-                                    @php
-                                        $sld = ( $r['ID_ROL'] == $u['ID_ROLL'] ) ? 'selected' : '';
-                                    @endphp
-                                    <option value="{{ $r['ID_ROL'] }}" {{ $sld }}> {{ $r['DESCRIPCION'] }} </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="correo_electronico" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="correo_electronico" value="{{ $u['CORREO_ELECTRONICO'] }}">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveChanges">Guardar Cambios</button>
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
 <!-- Modal de Eliminación -->
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
@@ -329,14 +272,21 @@
                 <h5 class="modal-title">Confirmar Eliminación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <input type="hidden" id="delete_usuario_id">
-                ¿Está seguro de que desea eliminar este usuario?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
-            </div>
+            <form action="/table_usuarios/eliminar" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                <div class="modal-body">
+
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" id="eliminar_id" name="id">
+                        ¿Está seguro de que desea eliminar este usuario?
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="sudmit" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -369,6 +319,15 @@
                 estadoSelect.querySelectorAll('option').forEach(option => {
                     option.selected = (option.value === estado);
                 });
+            });
+        });
+        document.querySelectorAll(".btn_eliminar").forEach(button => {
+            button.addEventListener("click", function () {
+                let id = this.getAttribute("data-id");
+
+                // Rellenar el formulario del modal
+                document.getElementById("eliminar_id").value = id;
+
             });
         });
     });

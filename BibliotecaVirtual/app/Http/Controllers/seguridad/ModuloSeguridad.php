@@ -68,4 +68,13 @@ class ModuloSeguridad
         }
         return redirect()->back();
     }
+    public function accion_EliminarUsuario(Request $request)
+    {
+        $Datosdelete = $request->validate([
+            'id' => 'required'
+        ]);
+        $http = json_decode(Http::delete(config('global.Api.usuario_eliminar').$Datosdelete['id']), true);
+
+        return redirect()->back();
+    }
 }
