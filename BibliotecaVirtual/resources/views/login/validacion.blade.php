@@ -68,36 +68,108 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg"><strong>Validacion Gmail</strong></p>
-      <p>
-        Estimado usuario, para completar el proceso de registro con el nombre <strong>[Nombre del Usuario]</strong>
-        y el correo <strong>[correo@ejemplo.com]</strong>, deberá presentarse personalmente en la biblioteca del INFOP.
-      </p>
+                <!-- Register Form -->
+                <form action="Accion_CambioContra" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <p class="login-box-msg">Cambio de Contraseña</p>
 
-      <form action="/login/Validacion" method="POST">
-        @csrf
-        <!-- Name Input -->
-        <div class="input-group mb-3">
-          <input type="text" name="name" class="form-control mayusculas" placeholder="Codigo" maxlength="20" required>
-          <div class="input-group-append">
-            <div class="input-group-text">
-            
-            </div>
-          </div>
-        </div>
-        <!-- Submit Button -->
-        <div class="row">
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block submit-btn" disabled>Registrarse</button>
-          </div>
-        </div>
+                    <input type="hidden" name="id" id="id" value="{{$id}}">
+                    <!-- Password Input -->
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" class="form-control password" placeholder="Contraseña" maxlength="50" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- Switch to Login -->
-        <div class="mt-3 text-center">
-          <a href="#" onclick="switchForm('loginForm')">¿Ya tienes cuenta? Inicia sesión aquí</a>
-        </div>
-      </form>
+                    <!-- Password Input -->
+                    <div class="input-group mb-3">
+                        <input type="password" name="password_r" class="form-control password_r" placeholder="Confirmar Contraseña" maxlength="50" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block submit-btn" disabled>Registrarse</button>
+                        </div>
+                    </div>
+                </form>
 
+                <script>
+
+                    document.querySelectorAll('.formato-dni').forEach(function(input) {
+                        input.addEventListener('input', function() {
+                        let value = input.value.replace(/\D/g, ''); // Elimina todo lo que no sea número
+                        // Aplicamos el formato
+                        if (value.length <= 4) {
+                            input.value = value; // Hasta 4 dígitos, no se agregan espacios
+                        } else if (value.length <= 8) {
+                            input.value = value.replace(/(\d{4})(\d{0,4})/, '$1 $2'); // Después de 4, se agrega un espacio
+                        } else {
+                            input.value = value.replace(/(\d{4})(\d{4})(\d{0,5})/, '$1 $2 $3'); // Después de 8, se agrega otro espacio
+                        }
+                        });
+                    });
+
+                    // Aplicamos un evento para todos los inputs con la clase 'solo-numeros'
+                    document.querySelectorAll('.solo-numeros').forEach(function(input) {
+                        input.addEventListener('input', function() {
+                        input.value = input.value.replace(/[^0-9]/g, ''); // Solo permite números
+                        });
+                    });
+
+
+                    // Función para verificar si las contraseñas coinciden y aplicar clases
+                    function checkPasswordsMatch() {
+                        const password = document.querySelector('.password');
+                        const confirmPassword = document.querySelector('.password_r');
+                        const submitButton = document.querySelector('.submit-btn');
+
+                        // Verificar si las contraseñas coinciden
+                        if (password.value !== confirmPassword.value) {
+                        confirmPassword.classList.add('is-invalid'); // Añadir clase para borde rojo
+                        confirmPassword.classList.remove('is-valid'); // Eliminar clase de borde verde
+                        submitButton.disabled = true; // Deshabilitar el botón de submit
+                        } else {
+                        confirmPassword.classList.remove('is-invalid'); // Eliminar clase de borde rojo
+                        confirmPassword.classList.add('is-valid'); // Añadir clase de borde verde
+                        submitButton.disabled = false; // Habilitar el botón de submit
+                        }
+                    }
+
+                    // Añadir los eventos a los campos de contraseña
+                    document.querySelector('.password').addEventListener('input', checkPasswordsMatch);
+                    document.querySelector('.password_r').addEventListener('input', checkPasswordsMatch);
+
+
+                    // Función para verificar que el campo tenga exactamente 15 caracteres
+                    function checkExactLength() {
+                        const input = document.querySelector('.input-exact');
+                        const submitButton = document.querySelector('.submit-btn');
+
+                        // Verificar si el campo tiene exactamente 15 caracteres
+                        if (input.value.length !== 15) {
+                        input.classList.add('is-invalid'); // Añadir clase para borde rojo
+                        input.classList.remove('is-valid'); // Eliminar clase de borde verde
+                        submitButton.disabled = true; // Deshabilitar el botón de submit
+                        } else {
+                        input.classList.remove('is-invalid'); // Eliminar clase de borde rojo
+                        input.classList.add('is-valid'); // Añadir clase de borde verde
+                        submitButton.disabled = false; // Habilitar el botón de submit
+                        }
+                    }
+
+                    // Añadir los eventos al campo de entrada
+                    document.querySelector('.input-exact').addEventListener('input', checkExactLength);
+
+                    </script>
     </div>
     <!-- /.login-card-body -->
   </div>

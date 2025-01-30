@@ -149,12 +149,32 @@ class LoginController
         return view('login.login');
     }
 
-    public function ruta_Verificacion(Request $request){
+    public function accion_Verificacion(Request $request){
+
+
         if ($request->hasValidSignature()) {
 
 
             $DataBusqueda = json_decode(Http::get(config('global.Api.usuario_Tcd').$request->token), true);
-            $new_codigo = Str::random(60);;
+
+            $new_codigo = Str::random(60);
+            $DataEntidad = Http::put(config('global.Api.usuVerific'), [
+                "P_ID"          => $DataBusqueda['ID_USUARIO'],
+                "P_CODIGO"      => $new_codigo
+            ]);
+
+            if ($DataBusqueda['ESTADO_USUARIO'] == json_decode(Http::get(config('global.Api.usuarioEstado_id').'5'),true)['DESCRIPCION']){
+
+
+
+                return redirect('/login/CambioContrasena')->with('id_usuario', $DataBusqueda['ID_USUARIO']);
+            }
+
+
+
+
+
+
             //dd($request->token, $new_codigo);
 
 
@@ -177,4 +197,52 @@ class LoginController
         }
     }
 
+    public function ruta_cambioContra(){
+
+        $id = session('id_usuario');
+
+        return view('login.validacion', compact('id'));
+    }
+    public function accion_cambioContra(Request $request){
+
+        //Data del formulario
+        $DatoForm = $request->validate([
+            'id' => 'required',
+            'password' => 'required|string|max:50',
+            'password_r' => 'required|string|max:50'
+        ]);
+
+        if ($DatoForm['password_r'] == $DatoForm['password']){
+            $U = json_decode(Http::get(config('global.Api.usuario_id'). $DatoForm['id']), true);
+
+            $token = Str::random(config('global.variables.token_lenght'));
+            $parametro_Intentos = json_decode(Http::get(config('global.Api.parametro_id').'1'), true);
+            $parametro_DiasVenc = json_decode(Http::get(config('global.Api.parametro_id').'3'), true);
+
+            $DataEntidad = Http::put(config('global.Api.usuario_modify'), [
+                "p_ID_USUARIO" => $U['ID_USUARIO'],
+                "p_ID_ESTADO_USUARIO"  => 1,
+                "p_ID_ROL"  => $U['ID_ROLL'],
+                "p_ID_CENTRO_REGIONAL"  => 1,
+                "p_NOMBRE_USUARIO"  => $U['NOMBRE_USUARIO'],
+                "p_CONTRASENA"  => $DatoForm['password'],
+                "p_DNI"  => $U['DNI'],
+                "p_CORREO_ELECTRONICO"  => $U['CORREO_ELECTRONICO'],
+                "p_FECHA_CONEXION_ULTIMA" => Carbon::today(),
+                "p_COD_PRIMER_INGRESO" => "hola",
+                "p_FECHA_VENCIMIENTO" => Carbon::today()->addDays($parametro_DiasVenc['VALOR']),
+                "p_INTENTOS" => intval($parametro_Intentos['VALOR'])
+            ]);
+
+
+            session(config('global.Mensaje_texto.Cambio_Contraseña'));
+            return redirect('/login');
+
+        }else{
+            $U = json_decode(Http::get(config('global.Api.usuario_id'). $DatoForm['id']), true);
+            return redirect('/login/CambioContrasena')->with('id_usuario', $U['ID_USUARIO']);
+        }
+
+
+    }
 }

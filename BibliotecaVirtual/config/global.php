@@ -18,7 +18,7 @@ return [
         'parametro_id'  => 'http://localhost:3000/parametro/'
         ],
     'variables' =>[
-        'token_time_min' => 30,
+        'token_time_min' => 3,
         'token_lenght'   => 60,
         ],
     'Mensaje_texto'=>[
@@ -45,6 +45,10 @@ return [
         'no_autentificado' => [
             'mensaje' => 'inicia secion, primero antes de usar la plataforma',
             'tipo' => 'warning'
+        ],
+        'Cambio_Contraseña' => [
+            'mensaje' => 'Su contraseña a sido modificada correctamente',
+            'tipo' => 'success'
         ],
     ]
 

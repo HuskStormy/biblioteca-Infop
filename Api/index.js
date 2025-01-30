@@ -60,13 +60,13 @@ app.get('/usuario', (req, res) => {
     select('call ProSeguridad_Select_TBLusuario();', req, res);
 });
 app.get('/usuario/:id', (req, res) => {
-    select_one('call ProSeguridad_Select_TBLusuario_id(?)', req, res);
+    _select_one('call ProSeguridad_Select_TBLusuario_id(?)', req, res);
 });
 app.get('/usuario/correo/:id', (req, res) => {
-    select_one('call ProSeguridad_Select_TBLusuario_Correo(?)', req, res);
+    _select_one('call ProSeguridad_Select_TBLusuario_Correo(?)', req, res);
 });
 app.get('/usuario/t/:id', (req, res) => {
-    select_one('SET @p0=?; CALL `ProSeguridad_Select_TBLusuario_tkn`(@p0);', req, res);
+    p_select_one('SET @p0=?; CALL `ProSeguridad_Select_TBLusuario_tkn`(@p0);', req, res);
 });
 
 app.post('/usuario/add', (req, res) => {
@@ -115,8 +115,8 @@ app.put('/usuario/modify', (req, res) => {
             p_ID_ROL,
             p_ID_CENTRO_REGIONAL,
             p_NOMBRE_USUARIO,
-            p_DNI,
             p_CONTRASENA,
+            p_DNI,
             p_CORREO_ELECTRONICO,
             p_FECHA_CONEXION_ULTIMA,
             p_COD_PRIMER_INGRESO,
@@ -168,7 +168,7 @@ app.put('/persona/Intento/Restableser', (req, res) => {
 
 
 app.get('/parametro/:id', (req, res) => {
-    select_one('CALL `ProSeguridad_Select_TBLparametro_id`(?);', req, res);
+    _select_one('CALL `ProSeguridad_Select_TBLparametro_id`(?);', req, res);
 });
 
 app.get('/estado', (req, res) => {
@@ -176,7 +176,7 @@ app.get('/estado', (req, res) => {
 });
 
 app.get('/estado/:id', (req, res) => {
-    select_one('CALL `ProSeguridad_Select_TBLUsuarioEstado_id`(?);', req, res);
+    _select_one('CALL `ProSeguridad_Select_TBLUsuarioEstado_id`(?);', req, res);
 });
 
 app.get('/rol', (req, res) => {
@@ -287,6 +287,38 @@ async function _select(query, req, res) {
             
             res.status(200).json(rows);
             console.log('get.query( \'' + query + '\' )');
+        } else {
+            res.status(200).json(null);
+            console.log(err);
+        }
+    });
+}
+async function _select_one(query, req, res) {
+    const { id } = req.params;
+    mysqlConnection.query(query, id, (err, rows, fields) => {
+        if (!err) {
+            if (rows.length > 0) {
+                // Si hay resultados, solo devolvemos el primer registro sin otros datos adicionales.
+                res.status(200).json(rows[0][0]);
+            } else {
+                res.status(404).json(null);
+            }
+        } else {
+            res.status(200).json(null);
+            console.log(err);
+        }
+    });
+}
+async function p_select_one(query, req, res) {
+    const { id } = req.params;
+    mysqlConnection.query(query, id, (err, rows, fields) => {
+        if (!err) {
+            if (rows.length > 0) {
+                // Si hay resultados, solo devolvemos el primer registro sin otros datos adicionales.
+                res.status(200).json(rows[1][0]);
+            } else {
+                res.status(404).json(null);
+            }
         } else {
             res.status(200).json(null);
             console.log(err);
