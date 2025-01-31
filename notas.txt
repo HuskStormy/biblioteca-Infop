@@ -5,4 +5,4 @@ instalar todas las dependecias
 	php artisan key:generate
 
 
-    
+    cambio para inventario
