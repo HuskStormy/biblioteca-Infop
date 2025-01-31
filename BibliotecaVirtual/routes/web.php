@@ -21,13 +21,17 @@ Route::get('/perfil',function () {  return view('login.perfil'); });
 Route::get('/',     function () {       return redirect('/index');   });//->middleware('middleware_dash');          ///Ruta Index
 Route::get('/index',            [LoginController::class, 'ruta_index']);//->middleware('middleware_dash');            //Ruta Index
 
-Route::get('/Validacion/{token}',[LoginController::class, 'accion_Verificacion'])->name('verificacion.Link'); ///Ruta del login
-Route::get('/login',            [LoginController::class, 'ruta_login']);            ///Ruta del login
-Route::post('/login/ingresar',  [LoginController::class, 'Accion_Login']);          //form_login_ingresar
-Route::post('/login/Registrar', [LoginController::class, 'Accion_Registrarses']);    //form_login_registrase
-Route::get('/login/Logout',     [LoginController::class, 'Accion_Logout']);         //form_login_deslogiarse
-Route::get('/login/CambioContrasena',     [LoginController::class, 'ruta_cambioContra']);         //form_login_deslogiarse
-Route::put('/login/Accion_CambioContra', [LoginController::class, 'accion_cambioContra']);
+Route::get('/Validacion/{token}',       [LoginController::class, 'accion_Verificacion'])->name('verificacion.Link'); ///Ruta del login
+Route::get('/login',                    [LoginController::class, 'ruta_login']);            ///Ruta del login
+Route::post('/login/ingresar',          [LoginController::class, 'Accion_Login']);          //form_login_ingresar
+Route::post('/login/Registrar',         [LoginController::class, 'Accion_Registrarses']);    //form_login_registrase
+Route::get('/login/Logout',             [LoginController::class, 'Accion_Logout']);         //form_login_deslogiarse
+Route::get('/login/CambioContrasena',   [LoginController::class, 'ruta_cambioContra']);         //form_login_deslogiarse
+Route::put('/login/Accion_CambioContra',[LoginController::class, 'accion_cambioContra']);
+Route::get('/login/buscarCorreo',       [LoginController::class, 'ruta_buscarCorreo']);
+Route::get('/login/Accion_buscarCorreo',[LoginController::class, 'Accion_buscarCorreo']);
+
+
 
 
 //Route::get('/login',     [LoginController::class, 'get_']);        //form_login_deslogiarse

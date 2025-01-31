@@ -67,7 +67,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(31, 28, 28, 0.9); /* Fondo semi-transparente */
+            background: rgba(31, 28, 28, 0.5); /* Fondo semi-transparente */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -78,7 +78,7 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid #3498db;
+            border: 5px solid #ffffff;
             border-top: 5px solid transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;

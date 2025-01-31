@@ -145,7 +145,8 @@
 
                     <!-- Switch to Register -->
                     <div class="mt-3 text-center">
-                        <a href="#" onclick="switchForm('registerForm')">¿No tienes cuenta? Regístrate aquí</a>
+                        <p><a href="#" onclick="switchForm('registerForm')">¿No tienes cuenta? Regístrate aquí</a></p>
+                        <p><a href="/login/buscarCorreo">Olvidastes tu contraseña</a></p>
                     </div>
                 </form>
 

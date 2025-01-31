@@ -68,21 +68,24 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg"><strong>Validación de Registro</strong></p>
+      <p class="login-box-msg"><strong>recuperacion de Contraseña</strong></p>
       <p>
-        Estimado usuario, para completar el proceso de registro con el nombre <strong>[Nombre del Usuario]</strong>
-        y el correo <strong>[correo@ejemplo.com]</strong>, deberá presentarse personalmente en la biblioteca del INFOP.
+        Profavor ingrese su correo electrónico de su cuenta, para verificar que es usted.
       </p>
-      <p>
-        Por favor, lleve consigo un documento de identificación oficial y este mensaje como referencia.
-        Una vez validada su información, se habilitará su acceso a la plataforma.
-      </p>
-      <p class="text-center">
-        Gracias por su comprensión.
-      </p>
-      <div class="text-center mt-3">
-        <a href="login" class="btn btn-primary btn-block">Volver a Inicio</a>
-      </div>
+        <form id="editForm" method="GET" action="/login/Accion_buscarCorreo">
+        <!-- Email Input -->
+            <div class="input-group mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Usuario@gmail.com" maxlength="50" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+            </div>
+        </form>
     </div>
     <!-- /.login-card-body -->
   </div>

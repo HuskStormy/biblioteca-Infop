@@ -203,6 +203,7 @@ class LoginController
 
         return view('login.validacion', compact('id'));
     }
+
     public function accion_cambioContra(Request $request){
 
         //Data del formulario
@@ -244,5 +245,16 @@ class LoginController
         }
 
 
+    }
+
+    public function ruta_buscarCorreo(){
+        //session()->flush();
+        //dd($this->generarEnlaceUnico());
+        return view('login.buscarCorreo');
+    }
+    public function Accion_buscarCorreo(Request $request){
+
+        dd("hola mundo");
+        return redirect()->back();
     }
 }

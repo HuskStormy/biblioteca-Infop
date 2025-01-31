@@ -48,6 +48,7 @@
                             <td>{{ $u['FECHA_CONEXION_ULTIMA'] }}</td>
                             <td>{{ $u['INTENTOS'] }}</td>
                             <td>
+                                @if($u['ID_USUARIO'] != Session::get('user_id')){
                                 <div class="button-group">
                                     <button type="button" class="btn btn-warning btn-sm btn_editar" data-bs-toggle="modal" data-bs-target="#editModal"
                                         data-id="{{ $u['ID_USUARIO'] }}"
@@ -62,8 +63,8 @@
                                         data-id="{{ $u['ID_USUARIO'] }}">
                                         <i class="bi bi-trash3-fill"></i> Eliminar
                                     </button>
-                                    <button class="btn btn-info" data-toggle="modal" data-target="#myModal" data-id="{{ $u['ID_USUARIO'] }}">Ver Detalles</button>
                                 </div>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
