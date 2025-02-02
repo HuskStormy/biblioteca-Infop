@@ -5,7 +5,9 @@
 @section('content')
 
 
-
+@php
+$contador = 1;
+@endphp
 <!--TABLA-->
 <div class="card-group">
     <div class="col-12">
@@ -22,7 +24,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover table-sm">
+                <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr class="align-middle">
                             <th class="col-1">n°</th>
@@ -39,7 +41,7 @@
                     <tbody>
                         @foreach($Usuarios as $u)
                         <tr>
-                            <td>{{ $u['ID_USUARIO'] }}</td>
+                            <td>{{ $contador++ }}</td>
                             <td>{{ $u['NOMBRE_USUARIO'] }}</td>
                             <td>{{ $u['DNI'] }}</td>
                             <td>{{ $u['ESTADO_USUARIO'] }}</td>
@@ -48,7 +50,7 @@
                             <td>{{ $u['FECHA_CONEXION_ULTIMA'] }}</td>
                             <td>{{ $u['INTENTOS'] }}</td>
                             <td>
-                                @if($u['ID_USUARIO'] != Session::get('user_id')){
+                                @if($u['ID_USUARIO'] != Session::get('user_id'))
                                 <div class="button-group">
                                     <button type="button" class="btn btn-warning btn-sm btn_editar" data-bs-toggle="modal" data-bs-target="#editModal"
                                         data-id="{{ $u['ID_USUARIO'] }}"
@@ -60,7 +62,8 @@
                                         <i class="bi bi-pen-fill"></i> Editar
                                     </button>
                                     <button type="button" class="btn btn-danger btn-sm btn_eliminar" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        data-id="{{ $u['ID_USUARIO'] }}">
+                                        data-id="{{ $u['ID_USUARIO'] }}"
+                                        data-usuario="{{ $u['NOMBRE_USUARIO'] }}">
                                         <i class="bi bi-trash3-fill"></i> Eliminar
                                     </button>
                                 </div>
@@ -69,8 +72,86 @@
                         </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="col-1">n°</th>
+                            <th class="col-1">Nombre Usuario</th>
+                            <th class="col-1">DNI</th>
+                            <th class="col-1">Estado</th>
+                            <th class="col-1">Rol</th>
+                            <th class="col-2">Correo electrónico</th>
+                            <th class="col-1">Fecha Ultima conexión</th>
+                            <th class="col-1">Intentos</th>
+                            <th class="col-1">Acciones</th>
+                        </tr>
+                        </tfoot>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- MODAL DE EDICIÓN -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addForm" method="POST" action="/table_usuarios/agregar">
+                @csrf
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" maxlength="50" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_dni" class="form-label">DNI</label>
+                        <input type="text" class="form-control" name="DNI" maxlength="15" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_estado" class="form-label">Estado</label>
+                        <!-- Select para Estado -->
+                        <select class="form-control" name="estado">
+                            @foreach($Estado as $e)
+                            @if($e['ID_ESTADO_USUARIO'] == '5')
+                                <option value="{{ $e['ID_ESTADO_USUARIO'] }}">
+                                    {{ $e['DESCRIPCION'] }}
+                                </option>
+                            @endif
+                            @endforeach
+                        </select>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="  " class="form-label">Rol</label>
+
+                        <!-- Select para Rol -->
+                        <select class="form-control" name="rol">
+                            @foreach($Rol as $r)
+                                    <option value="{{ $r['ID_ROL'] }}">
+                                        {{ $r['DESCRIPCION'] }}
+                                    </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" name="correo" maxlength="50" required>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -137,133 +218,16 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" id="openConfirmModal">Guardar Cambios</button>
+
+                    <!--<button type="submit" class="btn btn-primary">Guardar Cambios</button> -->
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-    <!-- Modal para Agregar -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Crear Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                        <div class="row">
-                            <div class="col-2">
-                                <img src="{{asset('dist/img/default-150x150.png')}}" class="img-thumbnail" alt="Cinque Terre" width="150px" height="150px">
-                            </div>
-                            <div class="col-10">
 
-                                <div class="row">
-                                    <label for="titulo" class="form-label">Datos Personales</label>
-                                    <div class="col-12">
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend"> <span class="input-group-text">Nombre</span></div>
-                                            <input type="text" class="form-control" placeholder="Texto">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend"> <span class="input-group-text">Apellido</span></div>
-                                            <input type="text" class="form-control" placeholder="Texto">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend"> <span class="input-group-text">RTN</span></div>
-                                            <input type="text" class="form-control" placeholder="Texto">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <label for="titulo" class="form-label">Datos de Usuario</label>
-                            <div class="col-12">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend"> <span class="input-group-text">Usuario</span></div>
-                                    <input type="text" class="form-control" placeholder="Texto">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend"> <span class="input-group-text">Correo</span></div>
-                                    <input type="text" class="form-control" placeholder="Texto">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend"> <span class="input-group-text">Contraseña</span></div>
-                                    <input type="text" class="form-control" placeholder="Texto">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <label for="titulo" class="form-label">Registro</label>
-                            <div class="col-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Estado</span>
-                                    <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Rol</span>
-                                    <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend"> <span class="input-group-text">Codigo Primer Ingreso</span></div>
-                                    <input type="text" class="form-control" placeholder="Texto">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Centro Regional</span>
-                                    <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Agregar</button>
-                </div>
-            </div>
-        </div>
-</div>
 
 <!-- Modal de Eliminación -->
 <div class="modal fade" id="deleteModal" tabindex="-1">
@@ -273,13 +237,17 @@
                 <h5 class="modal-title">Confirmar Eliminación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/table_usuarios/eliminar" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+            <form action="/table_usuarios/eliminar" method="POST">
                 <div class="modal-body">
 
                         @csrf
                         @method('DELETE')
                         <input type="hidden" id="eliminar_id" name="id">
-                        ¿Está seguro de que desea eliminar este usuario?
+                        <input type="text" class="form-control" id="usuario_name" readonly>
+                        <p>
+                            ¿Está seguro de que desea eliminar este usuario?
+                        </p>
+
 
 
                 </div>
@@ -294,7 +262,34 @@
 
 
 
+
+<!-- MODAL DE CONFIRMACIÓN -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100" id="confirmModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <p class="mt-3">¿Estás seguro de que deseas guardar los cambios?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmSave">Sí, Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <script>
+    // pasar datos a los modales
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".btn_editar").forEach(button => {
             button.addEventListener("click", function () {
@@ -325,15 +320,32 @@
         document.querySelectorAll(".btn_eliminar").forEach(button => {
             button.addEventListener("click", function () {
                 let id = this.getAttribute("data-id");
+                let name = this.getAttribute("data-usuario");
 
                 // Rellenar el formulario del modal
                 document.getElementById("eliminar_id").value = id;
+                document.getElementById("usuario_name").value = name;
 
             });
         });
     });
-    </script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+        let editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        let confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+
+        // Al hacer clic en "Guardar Cambios", abrir el modal de confirmación
+        document.getElementById("openConfirmModal").addEventListener("click", function () {
+            confirmModal.show();
+        });
+
+        // Al confirmar la acción, enviar el formulario
+        document.getElementById("confirmSave").addEventListener("click", function () {
+            document.getElementById("editForm").submit();
+        });
+    });
+
+</script>
 
 
 @endsection

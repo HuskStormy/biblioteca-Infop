@@ -44,11 +44,15 @@ Route::get('/backup',function () {   return view('login.backup'); }); ///Ruta de
 ///Seguridad
 //Usuarios
 Route::get('/table_usuarios',                           [ModuloSeguridad::class, 'ruta_TablaUsuario']);//->middleware('middleware_dash');
-Route::put('/table_usuarios/actualizar',                       [ModuloSeguridad::class, 'accion_editarUsuario']);
-Route::delete('/table_usuarios/eliminar',                       [ModuloSeguridad::class, 'accion_EliminarUsuario']);
+Route::post('/table_usuarios/agregar',                  [ModuloSeguridad::class, 'accion_AgregarUsuario']);//->middleware('middleware_dash');
+Route::put('/table_usuarios/actualizar',                [ModuloSeguridad::class, 'accion_editarUsuario']);
+Route::delete('/table_usuarios/eliminar',               [ModuloSeguridad::class, 'accion_EliminarUsuario']);
+Route::get('/pdf-usuarios',                             [ModuloSeguridad::class, 'ruta_ReporteUsuario']);
 
 Route::get('/table_usuariosPendietes',function () {     return view('Modulos.Seguridad.Usuarios.tabla_usuariosPendientes'); });//->middleware('middleware_dash');
 Route::get('/form_agregarUsuario',function () {         return view('Modulos.Seguridad.Usuarios.form_agregarUsuarios'); });//->middleware('middleware_dash');
+
+
 //Seguridad
 Route::get('/table_bitacora',function () {              return view('Modulos.Seguridad.Seguridad.tabla_bitacora'); });
 Route::get('/table_parametros',function () {            return view('Modulos.Seguridad.Seguridad.tabla_parametros'); });
@@ -94,7 +98,7 @@ Route::get('/mnt-ProcGest',function () {  return view('Modulos.matenimiento.mtn-
 
 
 ///pdfs
-Route::get('/pdf-usuarios', function () { $pdf = PDF::loadView('PDFs.pdf_usuarios'); return $pdf->stream('usuarios.pdf'); });
+
 Route::get('/pdf-bitacora', function () { $pdf = PDF::loadView('PDFs.pdf_bitacora'); return $pdf->stream('bitacora.pdf'); });
 Route::get('/pdf-Parametros', function () { $pdf = PDF::loadView('PDFs.pdf_parametro'); return $pdf->stream('parametros.pdf'); });
 Route::get('/pdf-permisos', function () { $pdf = PDF::loadView('PDFs.pdf_permisos'); return $pdf->stream('permisos.pdf'); });

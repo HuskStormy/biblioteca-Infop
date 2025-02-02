@@ -29,12 +29,12 @@ class LoginController
         $DataEntidad = json_decode(Http::get(config('global.Api.usuario_correo').$DatoForm['email']), true);
         //existe el dato buscado?
         if ($DataEntidad == null){
-            session(config('global.Mensaje_texto.Usuario_noAsseso'));
+            session()->flash(config('global.Mensaje_texto.Usuario_noAsseso'));
             return redirect('/login');
         }
         //dd($DataEntidad['ESTADO_USUARIO'], json_decode(Http::get(config('global.Api.usuarioEstado_id').'2'),true)['DESCRIPCION']);
         if ($DataEntidad['ESTADO_USUARIO'] == json_decode(Http::get(config('global.Api.usuarioEstado_id').'2'),true)['DESCRIPCION']){ //2:bloqueado
-            session(config('global.Mensaje_texto.Usuario_bloqueado'));
+            session()->flash(config('global.Mensaje_texto.Usuario_bloqueado'));
             return redirect('/login');
         }
         $Verificar_Contra = $DataEntidad['CONTRASENA'] == $DatoForm['password'];//Hash::check($DatoForm['password'], '$2y$10$hQ1m.3mnBqdKBH845.Y.8ua.3JJeOzDWd0WRiKsbktF');
@@ -43,12 +43,12 @@ class LoginController
         if (!$Verificar_Contra){
             if ($DataEntidad['INTENTOS'] <= 1){
                 Http::put(config('global.Api.usuario_Estado_bloqueado'), ['p0'=>$DataEntidad['ID_USUARIO']]);
-                session(config('global.Mensaje_texto.Usuario_bloqueado'));
+                session()->flash(config('global.Mensaje_texto.Usuario_bloqueado'));
                 return redirect('/login');
             }else{
                 //$parametro = json_decode(Http::get(config('global.Api.parametro_id').'1'), true);
                 Http::put(config('global.Api.usuario_intento_Menos'), ['p0'=>$DataEntidad['ID_USUARIO']]);
-                session(config('global.Mensaje_texto.Usuario_noAsseso'));
+                session()->flash(config('global.Mensaje_texto.Usuario_noAsseso'));
                 return redirect('/login');
             }
         }
@@ -97,7 +97,7 @@ class LoginController
         //existe el dato buscado?
         //dd($DataEntidad);
         if ($DataEntidad != null){
-            session(config('global.Mensaje_texto.Usuario_bloqueado'));
+            session()->flash(config('global.Mensaje_texto.Usuario_bloqueado'));
             return redirect('/login');
         }
 
@@ -129,7 +129,7 @@ class LoginController
         $link_token = URL::temporarySignedRoute('verificacion.Link', now()->addMinutes(config('global.variables.token_time_min')), ['token' => $token]);
         Mail::to($DatoForm['email'])->send(new TestMail($link_token, $DatoForm['name'], 0, $DatoForm['email']));
 
-        session(config('global.Mensaje_texto.Usuario_resgistrado'));
+        session()->flash(config('global.Mensaje_texto.Usuario_resgistrado'));
         return redirect('/login');
         //return $DatoForm['name'].' - '.$DatoForm['DNI'].' - '.$DatoForm['email'].' - '.$DatoForm['password'].' - '.$DatoForm['password_r'];
     }
@@ -180,7 +180,7 @@ class LoginController
 
 
             if ($DataBusqueda == null){
-                session(config('global.Mensaje_texto.link_caducado'));
+                session()->flash(config('global.Mensaje_texto.link_caducado'));
                 return redirect('/login');
             }
 
@@ -189,10 +189,10 @@ class LoginController
                 "P_CODIGO"      => $new_codigo
             ]);
 
-            session(config('global.Mensaje_texto.link_verificar'));
+            session()->flash(config('global.Mensaje_texto.link_verificar'));
             return redirect('/login');
         } else {
-            session(config('global.Mensaje_texto.link_caducado'));
+            session()->flash(config('global.Mensaje_texto.link_caducado'));
             return redirect('/login');
         }
     }
@@ -236,7 +236,7 @@ class LoginController
             ]);
 
 
-            session(config('global.Mensaje_texto.Cambio_Contraseña'));
+            session()->flash(config('global.Mensaje_texto.Cambio_Contraseña'));
             return redirect('/login');
 
         }else{

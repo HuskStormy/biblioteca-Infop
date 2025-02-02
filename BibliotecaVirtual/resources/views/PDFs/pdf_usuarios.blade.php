@@ -14,52 +14,42 @@
     </div>
 
     <div class="details">
-        <p><strong>Creado por:</strong> Nombre del Usuario</p>
+        <p><strong>Creado por:</strong> {{ Session::get('user_nombre'); }}</p>
         <p><strong>Fecha de creación:</strong> {{ date('d/m/Y') }}</p>
         <p><strong>Descripción:</strong> agregar una descripcion</p>
     </div>
+    @php
+    $contador = 1;
+    @endphp
 
     <table>
         <thead>
             <tr>
-                <th>n°</th>
-                <th>Nombre Usuario</th>
-                <th>Estado</th>
-                <th>Rol</th>
-                <th>Centro Regional</th>
-                <th>Correo</th>
-                <th>contraseña</th>
-                <th>Fecha Ultima coneccion</th>
-                <th>Codigo Primer ingreso</th>
-                <th>fecha vencimiento</th>
+                <th class="col-1">n°</th>
+                <th class="col-1">Nombre Usuario</th>
+                <th class="col-1">DNI</th>
+                <th class="col-1">Rol</th>
+                <th class="col-2">Correo electrónico</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($Usuarios as $u)
             <tr>
-                <td>n°</th>
-                <td>Nombre Usuario</td>
-                <td>Estado</td>
-                <td>Rol</td>
-                <td>Centro Regional</td>
-                <td>Correo</td>
-                <td>contraseña</td>
-                <td>Fecha Ultima coneccion</td>
-                <td>Codigo Primer ingreso</td>
-                <td>fecha vencimiento</td>
+                <td>{{ $contador++ }}</td>
+                <td>{{ $u['NOMBRE_USUARIO'] }}</td>
+                <td>{{ $u['DNI'] }}</td>
+                <td>{{ $u['ROL_USUARIO'] }}</td>
+                <td>{{ $u['CORREO_ELECTRONICO'] }}</td>
             </tr>
+            @endforeach
         </tbody>
         <tfoot>
             <tr>
-                <th>n°</th>
-                <th>Nombre Usuario</th>
-                <th>Estado</th>
-                <th>Rol</th>
-                <th>Centro Regional</th>
-                <th>Correo</th>
-                <th>contraseña</th>
-                <th>Fecha Ultima coneccion</th>
-                <th>Codigo Primer ingreso</th>
-                <th>fecha vencimiento</th>
+                <th class="col-1">n°</th>
+                <th class="col-1">Nombre Usuario</th>
+                <th class="col-1">DNI</th>
+                <th class="col-1">Rol</th>
+                <th class="col-2">Correo electrónico</th>
             </tr>
         </tfoot>
     </table>

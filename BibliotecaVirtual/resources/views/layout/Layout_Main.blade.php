@@ -39,11 +39,19 @@
   <link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+    <!-- CSS de Toastr -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
   <!-- DataTables -->
   <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -53,42 +61,9 @@
         <!-- pantalla de carga -->
         <!-- pantalla de carga -->
         <!-- pantalla de carga -->
-
-<!-- Loader -->
-    <div id="loader" class="loader-overlay">
-        <div class="spinner"></div>
-    </div>
-
-    <style>
-        /* Fondo de la pantalla de carga */
-        .loader-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(31, 28, 28, 0.5); /* Fondo semi-transparente */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        /* Spinner animado */
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #ffffff;
-            border-top: 5px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+        <div id="loader" class="loader-overlay">
+            <div class="spinner"></div>
+        </div>
 
         <!-- /.pantalla de carga -->
         <!-- /.pantalla de carga -->
@@ -100,9 +75,6 @@
         <!-- Barra de navegacion horizontal arriba -->
         <nav class="main-header navbar navbar-expand BarraHorizontal_color">
             <!-- NAVBAR derecho -->
-
-
-
             <ul class="navbar-nav">
 
                 <!-- BOTON abrir la barra de navegacion vertical izquierda -->
@@ -292,47 +264,42 @@
         <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-    <!-- DataTables  & Plugins -->
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="../../plugins/jszip/jszip.min.js"></script>
-    <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-    <!-- Cargar jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        <style>
-            .hidden {
-                display: none;
-            }
-        </style>
+        <!-- Cargar jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
+        <!-- Toastr -->
+        <script src="../../plugins/toastr/toastr.min.js"></script>
+
+                <!-- DataTables  & Plugins -->
+                <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+                <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+                <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+                <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+                <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+                <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+                <script src="../../plugins/jszip/jszip.min.js"></script>
+                <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+                <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+                <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+                <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+                <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <script>
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            setTimeout(() => {
-                document.getElementById("loader").style.display = "none";
-            }, 500); // Ajusta el tiempo si la carga es rápida
-        });
-
-
-
-
+            
+            // el tiempo de cargar
+            document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(() => {
+                    document.getElementById("loader").style.display = "none";
+                }, 100);
+            });
 
             function toggleBrandLink() {
                 const brandLink = document.getElementById('brandLink');
                 brandLink.classList.toggle('hidden'); // Alterna la clase 'hidden'
             }
+            ///configuracion de
             $(function () {
                 $('#example2').DataTable({
                     "paging": true,
@@ -355,128 +322,22 @@
                         }
                 });
             });
-            $(function () {
-                $('#example3').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "language": {
-                        "search":"Buscar",
-                        "lengthMenu":"Mostrar _MENU_ registros por página",
-                        "info":"Mostrando página _PAGE_ de_PAGES_",
-                        "paginate":{
-                                "previous": "Anterior",
-                                "next": "Sigueinte",
-                                "first": "Primero",
-                                "last": "Último"
-                            }
-                        }
-                });
-            });
-            $(function () {
-                $('#example4').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "language": {
-                        "search":"Buscar",
-                        "lengthMenu":"Mostrar _MENU_ registros por página",
-                        "info":"Mostrando página _PAGE_ de_PAGES_",
-                        "paginate":{
-                                "previous": "Anterior",
-                                "next": "Sigueinte",
-                                "first": "Primero",
-                                "last": "Último"
-                            }
-                        }
-                });
-            });
-            $(function () {
-                $('#example5').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "language": {
-                        "search":"Buscar",
-                        "lengthMenu":"Mostrar _MENU_ registros por página",
-                        "info":"Mostrando página _PAGE_ de_PAGES_",
-                        "paginate":{
-                                "previous": "Anterior",
-                                "next": "Sigueinte",
-                                "first": "Primero",
-                                "last": "Último"
-                            }
-                        }
-                });
-            });
-            $(function () {
-                $('#example6').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "language": {
-                        "search":"Buscar",
-                        "lengthMenu":"Mostrar _MENU_ registros por página",
-                        "info":"Mostrando página _PAGE_ de_PAGES_",
-                        "paginate":{
-                                "previous": "Anterior",
-                                "next": "Sigueinte",
-                                "first": "Primero",
-                                "last": "Último"
-                            }
-                        }
-                });
-            });
-            $(function () {
-                $('#example7').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "language": {
-                        "search":"Buscar",
-                        "lengthMenu":"Mostrar _MENU_ registros por página",
-                        "info":"Mostrando página _PAGE_ de_PAGES_",
-                        "paginate":{
-                                "previous": "Anterior",
-                                "next": "Sigueinte",
-                                "first": "Primero",
-                                "last": "Último"
-                            }
-                        }
-                });
-            });
+
+            //botton para ir la anterior pagina
             document.addEventListener('DOMContentLoaded', function () {
-            const backButton = document.getElementById('backButton');
-            if (window.location.pathname === '/index' || window.location.pathname === '/' ) {
-                backButton.style.display = 'none';
-            }
-            backButton.addEventListener('click', function () {
-                window.history.back();
+                const backButton = document.getElementById('backButton');
+                if (window.location.pathname === '/index' || window.location.pathname === '/' ) {
+                    backButton.style.display = 'none';
+                }
+                backButton.addEventListener('click', function () {
+                    window.history.back();
+                });
             });
-        });
+
+            @if(session('toastr'))
+                toastr["{{ session('toastr.type') }}"]("{{ session('toastr.message') }}", "{{ session('toastr.title') }}");
+            @endif
         </script>
-
-
 
     </div>
     <!-- ./SCRIPTS -->
