@@ -287,7 +287,7 @@
                 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
                 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <script>
-            
+
             // el tiempo de cargar
             document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(() => {
@@ -307,7 +307,7 @@
                     "searching": true,
                     "ordering": true,
                     "info": true,
-                    "autoWidth": false,
+                    "autoWidth": true,
                     "responsive": true,
                     "language": {
                         "search":"Buscar",
@@ -337,6 +337,19 @@
             @if(session('toastr'))
                 toastr["{{ session('toastr.type') }}"]("{{ session('toastr.message') }}", "{{ session('toastr.title') }}");
             @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
         </script>
 
     </div>

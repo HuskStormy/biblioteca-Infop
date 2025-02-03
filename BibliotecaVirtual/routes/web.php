@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Session;
 
 use App\Http\Middleware;
 use App\Http\Controllers\seguridad\LoginController;
-use App\Http\Controllers\seguridad\ModuloSeguridad;
+use App\Http\Controllers\seguridad\UsuarioController;
+use App\Http\Controllers\seguridad\RolController;
 
 ///     Systema     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,8 +19,8 @@ Route::get('/perfil',function () {  return view('login.perfil'); });
 
 
 
-Route::get('/',     function () {       return redirect('/index');   });//->middleware('middleware_dash');          ///Ruta Index
-Route::get('/index',            [LoginController::class, 'ruta_index']);//->middleware('middleware_dash');            //Ruta Index
+Route::get('/',     function () {       return redirect('/index');   })->middleware('middleware_dash');          ///Ruta Index
+Route::get('/index',                    [LoginController::class, 'ruta_index'])->middleware('middleware_dash');            //Ruta Index
 
 Route::get('/Validacion/{token}',       [LoginController::class, 'accion_Verificacion'])->name('verificacion.Link'); ///Ruta del login
 Route::get('/login',                    [LoginController::class, 'ruta_login']);            ///Ruta del login
@@ -42,12 +43,19 @@ Route::get('/backup',function () {   return view('login.backup'); }); ///Ruta de
 
 ///     MODULOS     ///////////////////////////////////////////////////////////////////////////////////////////////
 ///Seguridad
+
 //Usuarios
-Route::get('/table_usuarios',                           [ModuloSeguridad::class, 'ruta_TablaUsuario']);//->middleware('middleware_dash');
-Route::post('/table_usuarios/agregar',                  [ModuloSeguridad::class, 'accion_AgregarUsuario']);//->middleware('middleware_dash');
-Route::put('/table_usuarios/actualizar',                [ModuloSeguridad::class, 'accion_editarUsuario']);
-Route::delete('/table_usuarios/eliminar',               [ModuloSeguridad::class, 'accion_EliminarUsuario']);
-Route::get('/pdf-usuarios',                             [ModuloSeguridad::class, 'ruta_ReporteUsuario']);
+    Route::get(     '/usuarios',                            [UsuarioController::class, 'ruta_TablaUsuario'])->middleware('middleware_dash');
+    Route::post(    '/usuarios/agregar',              [UsuarioController::class, 'accion_AgregarUsuario'])->middleware('middleware_dash');
+    Route::put(     '/usuarios/actualizar',           [UsuarioController::class, 'accion_editarUsuario'])->middleware('middleware_dash');
+    Route::delete(  '/usuarios/eliminar',             [UsuarioController::class, 'accion_EliminarUsuario'])->middleware('middleware_dash');
+    Route::get(     '/pdf-usuarios',                        [UsuarioController::class, 'ruta_ReporteUsuario'])->middleware('middleware_dash');
+//ROLES
+Route::get('/tabla_rol',                                [RolController::class, 'ruta_rol'])->middleware('middleware_dash');
+Route::put('/roles/actualizar',                               [RolController::class, 'Accion_EditarRol'])->middleware('middleware_dash');
+
+
+
 
 Route::get('/table_usuariosPendietes',function () {     return view('Modulos.Seguridad.Usuarios.tabla_usuariosPendientes'); });//->middleware('middleware_dash');
 Route::get('/form_agregarUsuario',function () {         return view('Modulos.Seguridad.Usuarios.form_agregarUsuarios'); });//->middleware('middleware_dash');
@@ -57,7 +65,7 @@ Route::get('/form_agregarUsuario',function () {         return view('Modulos.Seg
 Route::get('/table_bitacora',function () {              return view('Modulos.Seguridad.Seguridad.tabla_bitacora'); });
 Route::get('/table_parametros',function () {            return view('Modulos.Seguridad.Seguridad.tabla_parametros'); });
 Route::get('/tabla_permisos',function () {              return view('Modulos.Seguridad.Seguridad.tabla_permisos'); });
-Route::get('/tabla_rol',function () {                   return view('Modulos.Seguridad.Seguridad.tabla_rol'); });
+
 Route::get('/tabla_objeto',function () {                return view('Modulos.Seguridad.Seguridad.tabla_objeto'); });
 
 ///inventario

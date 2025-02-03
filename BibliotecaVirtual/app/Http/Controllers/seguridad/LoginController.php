@@ -66,7 +66,6 @@ class LoginController
             Session::put('user_nombre', $DataEntidad['NOMBRE_USUARIO']);
             Session::put('user_Correo', $DataEntidad['CORREO_ELECTRONICO']);
             Session::put('user_Rol',    $DataEntidad['ROL_USUARIO']);
-            Session::put('Session',     1);
 
             return redirect('/');
         }else if ($DataEntidad['ESTADO_USUARIO'] == json_decode(Http::get(config('global.Api.usuarioEstado_id').'3'),true)['DESCRIPCION'] ){ //3: primera vez
@@ -74,7 +73,6 @@ class LoginController
             Session::put('user_nombre', $DataEntidad['NOMBRE_USUARIO']);
             Session::put('user_Correo', $DataEntidad['CORREO_ELECTRONICO']);
             Session::put('user_Rol',    $DataEntidad['ROL_USUARIO']);
-            Session::put('Session',     1);
             return redirect('/');
         }
 

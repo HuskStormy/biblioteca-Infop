@@ -17,9 +17,17 @@ class middleware_dash
             session(config('global.Mensaje_texto.no_autentificado'));
             return redirect('/login');
         }
-    
+
+
+
+        $DataEntidad = json_decode(Http::get(config('global.Api.usuario_id').Session::get('user_id')), true);
+        Session::put('user_nombre', $DataEntidad['NOMBRE_USUARIO']);
+        Session::put('user_Correo', $DataEntidad['CORREO_ELECTRONICO']);
+        Session::put('user_Rol',    $DataEntidad['ROL_USUARIO']);
+
+
         // Si la sesión tiene la clave 'Session', pasa al siguiente middleware o controlador
         return $next($request);
     }
-    
+
 }

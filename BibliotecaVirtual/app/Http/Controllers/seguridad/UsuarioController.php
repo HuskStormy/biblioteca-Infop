@@ -15,7 +15,7 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
-class ModuloSeguridad
+class UsuarioController
 {
     public function ruta_TablaUsuario(){
 
@@ -98,6 +98,10 @@ class ModuloSeguridad
             'correo' => 'required|string|max:50',
             'CambioContra' => ''
         ]);
+
+        $DatosPut['DNI'] = str_replace("-", "", $DatosPut['DNI']);
+
+
 
         //Extraer datos de api
         $DataEntidad = json_decode(Http::get(config('global.Api.usuario_id').$DatosPut['id']), true);

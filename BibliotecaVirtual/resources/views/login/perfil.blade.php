@@ -5,7 +5,7 @@
 @section('content')
 
 @php
-  $VRFT = "true";   
+  $VRFT = "true";
   echo($VRFT);
 @endphp
 
@@ -47,7 +47,7 @@
             <hr>
 
             <strong><i class="fas fa-pencil-alt mr-1"></i> Correo</strong>
-            <p class="text-muted">ejemplo@gmail.com</p>
+            <p class="text-muted">{{Session::get('user_Correo')}}</p>
 
             <hr>
 

@@ -1,0 +1,39 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Iniciar Laravel (BibliotecaVirtual)",
+            "type": "shell",
+            "command": "php",
+            "args": ["artisan", "serve"],
+            "options": {
+                "cwd": "${workspaceFolder}/BibliotecaVirtual"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Iniciar Node.js (API)",
+            "type": "shell",
+            "command": "nodemon",
+            "args": ["index.js"],
+            "options": {
+                "cwd": "${workspaceFolder}/Api"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ]
+}

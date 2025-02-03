@@ -113,6 +113,7 @@
                     @endif
                     @php
                         session()->forget('mensaje');
+                        session()->forget('tipo');
                     @endphp
                     <!-- //ALERTA -->
 

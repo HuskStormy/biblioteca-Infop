@@ -1,3 +1,36 @@
+@foreach(config('menu') as $modulo => $menus)
+    <li class="nav-header nav-label">{{ $modulo }}</li>
+
+    @foreach($menus as $menu)
+        <li class="nav-item {{ isset($menu['submenu']) ? 'has-treeview' : '' }}">
+            <a href="{{ isset($menu['route']) && $menu['route'] ? url($menu['route']) : '#' }}" class="nav-link">
+                <i class="{{ $menu['icon'] }} nav-icon"></i>
+                <p>
+                    {{ $menu['title'] }}
+                    @if(isset($menu['submenu']))
+                        <i class="right fas fa-angle-left"></i>
+                    @endif
+                </p>
+            </a>
+
+            @if(isset($menu['submenu']))
+                <ul class="nav nav-treeview">
+                    @foreach($menu['submenu'] as $submenu)
+                        <li class="nav-item">
+                            <a href="{{ isset($submenu['route']) && $submenu['route'] ? rul($submenu['route']) : '#' }}" class="nav-link nav-tree">
+                                <i class="{{ $submenu['icon'] }}"></i>
+                                <p>{{ $submenu['title'] }}</p>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </li>
+    @endforeach
+@endforeach
+
+
+
 <!--
     para el <li> en class, deberia de ir:
         "nav-item"  //para saber que es de la barra lateral
@@ -14,33 +47,33 @@
 <li class="nav-header nav-label">Seguridad</li>
 
 
-<!-- BODY-->
-<li class="nav-item">
-    <!-- BUTTON principal -->
-    <a href="#" class="nav-link">
-        <i class="bi bi-people-fill nav-icon"></i>
-        <p>
-            Usuarios
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-    <!-- /.BUTTON principal -->
+    <!-- BODY-->
+    <li class="nav-item">
+        <!-- BUTTON principal -->
+        <a href="#" class="nav-link">
+            <i class="bi bi-people-fill nav-icon"></i>
+            <p>
+                Usuarios
+                <i class="right fas fa-angle-left"></i>
+            </p>
+        </a>
+        <!-- /.BUTTON principal -->
 
-    <!-- dentro del button -->
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{url('table_usuarios')}}" class="nav-link nav-tree">
-                <i class="bi bi-table"></i> <p>Gestion de Usuarios</p>
-            </a>
-        </li>
-        <li class="nav-item">
+        <!-- dentro del button -->
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{url('table_usuarios')}}" class="nav-link nav-tree">
+                    <i class="bi bi-table"></i> <p>Gestion de Usuarios</p>
+                </a>
+            </li>
+            <li class="nav-item">
 
-            <a href="{{url('table_usuariosPendietes')}}" class="nav-link nav-tree">
-                <i class="far fa-circle"></i> <p>Gestion de ususario pendientes</p> <span class="badge badge-info ml-auto">6</span>
-            </a>
-        </li>
-    </ul>
-</li>
+                <a href="{{url('table_usuariosPendietes')}}" class="nav-link nav-tree">
+                    <i class="far fa-circle"></i> <p>Gestion de ususario pendientes</p> <span class="badge badge-info ml-auto">6</span>
+                </a>
+            </li>
+        </ul>
+    </li>
 
 
 <!-- BODY-->
